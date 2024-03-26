@@ -17,7 +17,7 @@ if(!(Get-Module Az)){
 # AzureAD
 if(!(Get-Module AzureAD)){
     try{
-        Import-Module AzureAD -ErrorAction Stop
+        Import-Module AzureAD -ErrorAction Stop -UseWindowsPowerShell
         Import-Module $PSScriptRoot\AzureAD\MicroBurst-AzureAD.psm1
     }
     catch{Write-Host -ForegroundColor DarkRed "AzureAD module not installed, checking other modules"}
