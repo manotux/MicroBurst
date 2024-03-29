@@ -119,8 +119,8 @@ Function Invoke-EnumerateAzureSubDomains
         # Check the base word
         $lookup = $Base+'.'+$_
         
-        try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select Answers | Select-Object -First 1)|Out-Null}catch{}
-        if ($lookupResult -ne ""){
+        try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select HasError | Select-Object -First 1)|Out-Null}catch{}
+        if ($lookupResult.HasError -eq $false){
             Write-Verbose "Found $lookup"; $runningList += $lookup
             # Add to output table
             $TempTbl.Rows.Add([string]$lookup,[string]$subLookup[$_]) | Out-Null
@@ -136,27 +136,27 @@ Function Invoke-EnumerateAzureSubDomains
             if(($_ -ne 'file.core.windows.net') -or ($_ -ne 'blob.core.windows.net')){
                 # Base-Permutation
                 $lookup = $Base+"-"+$word+'.'+$_
-                try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select Answers | Select-Object -First 1)|Out-Null}catch{}
-                if ($lookupResult -ne ""){Write-Verbose "Found $lookup"; $runningList += $lookup; $TempTbl.Rows.Add([string]$lookup,[string]$subLookup[$_]) | Out-Null}
+                try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select HasError | Select-Object -First 1)|Out-Null}catch{}
+                if ($lookupResult.HasError -eq $false){Write-Verbose "Found $lookup"; $runningList += $lookup; $TempTbl.Rows.Add([string]$lookup,[string]$subLookup[$_]) | Out-Null}
                 $lookupResult = ""
 
                 # Permutation-Base
                 $lookup = $word+"-"+$Base+'.'+$_
-                try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select Answers | Select-Object -First 1)|Out-Null}catch{}
-                if ($lookupResult -ne ""){Write-Verbose "Found $lookup"; $runningList += $lookup; $TempTbl.Rows.Add([string]$lookup,[string]$subLookup[$_]) | Out-Null}
+                try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select HasError | Select-Object -First 1)|Out-Null}catch{}
+                if ($lookupResult.HasError -eq $false){Write-Verbose "Found $lookup"; $runningList += $lookup; $TempTbl.Rows.Add([string]$lookup,[string]$subLookup[$_]) | Out-Null}
                 $lookupResult = ""
             }
 
             # PermutationBase
             $lookup = $word+$Base+'.'+$_
-            try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select Answers | Select-Object -First 1)|Out-Null}catch{}
-            if ($lookupResult -ne ""){Write-Verbose "Found $lookup"; $runningList += $lookup; $TempTbl.Rows.Add([string]$lookup,[string]$subLookup[$_]) | Out-Null}
+            try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select HasError | Select-Object -First 1)|Out-Null}catch{}
+            if ($lookupResult.HasError -eq $false){Write-Verbose "Found $lookup"; $runningList += $lookup; $TempTbl.Rows.Add([string]$lookup,[string]$subLookup[$_]) | Out-Null}
             $lookupResult = ""
 
             # BasePermutation
             $lookup = $Base+$word+'.'+$_
-            try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select Answers | Select-Object -First 1)|Out-Null}catch{}
-            if ($lookupResult -ne ""){Write-Verbose "Found $lookup"; $runningList += $lookup; $TempTbl.Rows.Add([string]$lookup,[string]$subLookup[$_]) | Out-Null}
+            try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select HasError | Select-Object -First 1)|Out-Null}catch{}
+            if ($lookupResult.HasError -eq $false){Write-Verbose "Found $lookup"; $runningList += $lookup; $TempTbl.Rows.Add([string]$lookup,[string]$subLookup[$_]) | Out-Null}
             $lookupResult = ""
         }
     }
