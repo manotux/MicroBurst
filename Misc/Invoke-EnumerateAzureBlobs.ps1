@@ -86,7 +86,7 @@ $lookupResult = ""
         $lookup = ($Base+$domain).ToLower()
         Write-Verbose "Resolving - $lookup"
         try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select HasError | Select-Object -First 1)|Out-Null}catch{}
-        if ($lookupResult -eq $false){Write-Host "Found Storage Account - $lookup"; $runningList += $lookup; if ($OutputFile){$lookup >> $OutputFile}}
+        if ($lookupResult.HasError -eq $false){Write-Host "Found Storage Account - $lookup"; $runningList += $lookup; if ($OutputFile){$lookup >> $OutputFile}}
         $lookupResult = ""
     }
 
@@ -108,14 +108,14 @@ $lookupResult = ""
             $lookup = ($word+$Base+$domain).ToLower()
             Write-Verbose "Resolving - $lookup"
             try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select HasError | Select-Object -First 1)|Out-Null}catch{}
-            if ($lookupResult -eq $false){Write-Host "Found Storage Account -  $lookup"; $runningList += $lookup; if ($OutputFile){$lookup >> $OutputFile}}
+            if ($lookupResult.HasError -eq $false){Write-Host "Found Storage Account -  $lookup"; $runningList += $lookup; if ($OutputFile){$lookup >> $OutputFile}}
             $lookupResult = ""
 
             # BasePermutation
             $lookup = ($Base+$word+$domain).ToLower()
             Write-Verbose "Resolving - $lookup"
             try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select HasError | Select-Object -First 1)|Out-Null}catch{}
-            if ($lookupResult -eq $false){Write-Host "Found Storage Account -  $lookup"; $runningList += $lookup; if ($OutputFile){$lookup >> $OutputFile}}
+            if ($lookupResult.HasError -eq $false){Write-Host "Found Storage Account -  $lookup"; $runningList += $lookup; if ($OutputFile){$lookup >> $OutputFile}}
             $lookupResult = ""
         }
         else{
@@ -123,7 +123,7 @@ $lookupResult = ""
             $lookup = ($word+$domain).ToLower()
             Write-Verbose "Resolving - $lookup"
             try{($lookupResult = Resolve-Dns $lookup -ErrorAction Stop -Verbose:$false | select HasError | Select-Object -First 1)|Out-Null}catch{}
-            if ($lookupResult -eq $false){Write-Host "Found Storage Account -  $lookup"; $runningList += $lookup; if ($OutputFile){$lookup >> $OutputFile}}
+            if ($lookupResult.HasError -eq $false){Write-Host "Found Storage Account -  $lookup"; $runningList += $lookup; if ($OutputFile){$lookup >> $OutputFile}}
             $lookupResult = ""
         }
     }
